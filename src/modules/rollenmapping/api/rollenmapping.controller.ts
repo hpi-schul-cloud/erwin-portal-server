@@ -27,6 +27,7 @@ import { ClassLogger } from '../../../core/logging/class-logger.js';
 import { SchulConnexValidationErrorFilter } from '../../../shared/error/schulconnex-validation-error.filter.js';
 import { RolleID } from '../../../shared/types/index.js';
 import { AccessApiKeyGuard } from '../../authentication/api/access.apikey.guard.js';
+import { Public } from '../../authentication/api/public.decorator.js';
 import { Permissions } from '../../authentication/api/permissions.decorator.js';
 import { PersonPermissions } from '../../authentication/domain/person-permissions.js';
 import { Person } from '../../person/domain/person.js';
@@ -292,6 +293,7 @@ export class RollenMappingController {
     @ApiForbiddenResponse({ description: 'Insufficient rights to extract mapping' })
     @ApiNotFoundResponse({ description: 'No mapping found for the given user/service provider' })
     @ApiInternalServerErrorResponse({ description: 'Internal server error while extracting mapping' })
+    @Public()
     @UseGuards(AccessApiKeyGuard)
     public async getMappingForRolleAndServiceProvider(
         @Body() body: RollenMappingExtractMappingRequestBody,
