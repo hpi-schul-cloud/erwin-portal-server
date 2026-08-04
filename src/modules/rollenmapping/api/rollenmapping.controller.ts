@@ -301,6 +301,7 @@ export class RollenMappingController {
         const person: Option<Person<true>> = await this.personRepository.findByKeycloakUserId(body.keycloakUserId);
 
         if (!person) {
+            this.logger.error(`Person with keycloakUserId ${body.keycloakUserId} not found`);
             throw new NotFoundException("Person with given id doesn't exist");
         }
 
@@ -309,6 +310,7 @@ export class RollenMappingController {
             person.id,
         );
         if (!rolleId) {
+            this.logger.error(`Rolle with id ${body.keycloakUserId} not found`);
             throw new NotFoundException("User doesn't have access to the requested service provider");
         }
 
