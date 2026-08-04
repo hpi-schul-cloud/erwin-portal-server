@@ -310,7 +310,7 @@ export class RollenMappingController {
             person.id,
         );
         if (!rolleId) {
-            this.logger.error(`Rolle with id ${body.keycloakUserId} not found`);
+            this.logger.error(`Rolle not found for clientName ${body.clientName} and person with id ${person.id}`);
             throw new NotFoundException("User doesn't have access to the requested service provider");
         }
 
