@@ -31,6 +31,18 @@
             "emailDomain": "ersatzschule-sh.de"
         },
         {
+            "id": 3,
+            "kennung": "0705755",
+            "name": "Eric-Kandel-Gymnasium-Prod",
+            "namensergaenzung": "Keine",
+            "kuerzel": "E-Kandel-Gymn-Prod",
+            "typ": "SCHULE",
+            "administriertVon": 1,
+            "zugehoerigZu": 1,
+            "emailAdress": "eric.kandell@erwin.portal.de"
+        },
+
+        {
             "id": 1001,
             "name": "SVS",
             "namensergaenzung": "Keine",
