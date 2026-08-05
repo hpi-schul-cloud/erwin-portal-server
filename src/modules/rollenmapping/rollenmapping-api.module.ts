@@ -6,6 +6,7 @@ import { ServiceProviderModule } from '../service-provider/service-provider.modu
 import { RollenMappingController } from './api/rollenmapping.controller.js';
 import { RollenMappingService } from './api/rollenmapping.service.js';
 import { RollenMappingModule } from './rollenmapping.module.js';
+import { RolleModule } from '../rolle/rolle.module.js';
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { RollenMappingModule } from './rollenmapping.module.js';
         ServiceProviderModule,
         PersonenKontextModule,
         PersonModule,
+        RolleModule,
     ],
     providers: [RollenMappingService],
     controllers: [RollenMappingController],
