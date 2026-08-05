@@ -78,7 +78,7 @@ export class ServiceProviderRepo {
 
     public async findByName(name: string): Promise<Option<ServiceProvider<true>>> {
         const serviceProvider: Option<ServiceProviderEntity> = await this.em.findOne(ServiceProviderEntity, {
-            $ilike: name,
+            name: { $ilike: name },
         });
         if (serviceProvider) {
             return mapEntityToAggregate(serviceProvider);
