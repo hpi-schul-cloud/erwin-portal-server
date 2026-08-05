@@ -24,15 +24,17 @@ export class RollenMappingService {
 
         const personenkontexte: Personenkontext<true>[] =
             await this.personenKontextService.findPersonenkontexteByPersonId(userId);
-        const roleId: RolleID | null =
-            personenkontexte.find(
-                (pk: Personenkontext<true>) => pk.organisationId === serviceProvider.providedOnSchulstrukturknoten,
-            )?.rolleId ?? null;
 
-        if (!roleId) {
-            this.logger.warning(`Couldn't find role for user ${userId} and serviceprovider ${serviceProvider.id}`);
+        if (personenkontexte.length !== 1) {
+            this.logger.warning(`The personenkontext for person ${userId} is not unique.`);
+            return null;
         }
 
-        return roleId;
+        const rolleId: RolleID | null = personenkontexte[0]?.rolleId ?? null;
+        if (!rolleId) {
+            this.logger.warning(`Personenkontext ${personenkontexte[0]?.id} doesn't have a rolleId`);
+        }
+
+        return rolleId;
     }
 }
