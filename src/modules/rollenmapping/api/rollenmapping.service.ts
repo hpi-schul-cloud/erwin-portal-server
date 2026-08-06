@@ -57,7 +57,7 @@ export class RollenMappingService {
             return null;
         }
 
-        const rolleId: string | null = intersections[0] ?? null;
+        const rolleId: string = intersections[0]!;
         return rolleId;
     }
 }
