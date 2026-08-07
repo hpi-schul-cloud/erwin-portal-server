@@ -49,14 +49,6 @@
             "typ": "LMS",
             "administriertVon": null,
             "zugehoerigZu": null
-        },
-        {
-            "id": 1002,
-            "name": "Moodle",
-            "namensergaenzung": "Keine",
-            "typ": "LMS",
-            "administriertVon": null,
-            "zugehoerigZu": null
         }
     ]
 }
