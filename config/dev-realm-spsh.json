@@ -833,7 +833,7 @@
                     }
                 }
             ],
-            "defaultClientScopes": ["web-origins", "acr", "roles", "profile", "email"],
+            "defaultClientScopes": ["web-origins", "acr", "roles", "profile", "email", "spsh-audience"],
             "optionalClientScopes": ["address", "phone", "offline_access", "microprofile-jwt"]
         },
         {
@@ -1017,23 +1017,9 @@
                         "claim.name": "clientHost",
                         "jsonType.label": "String"
                     }
-                },
-                {
-                    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-                    "name": "spsh-audience",
-                    "protocol": "openid-connect",
-                    "protocolMapper": "oidc-audience-mapper",
-                    "consentRequired": false,
-                    "config": {
-                        "id.token.claim": "false",
-                        "access.token.claim": "true",
-                        "included.client.audience": "spsh",
-                        "lightweight.claim": "false",
-                        "introspection.token.claim": "true"
-                    }
                 }
             ],
-            "defaultClientScopes": ["web-origins", "acr", "roles", "profile", "email"],
+            "defaultClientScopes": ["web-origins", "acr", "roles", "profile", "email", "spsh-audience"],
             "optionalClientScopes": ["address", "phone", "offline_access", "microprofile-jwt"]
         },
         {
@@ -1206,7 +1192,7 @@
                     }
                 }
             ],
-            "defaultClientScopes": ["web-origins", "acr", "roles", "profile", "email"],
+            "defaultClientScopes": ["web-origins", "acr", "roles", "profile", "email", "spsh-audience"],
             "optionalClientScopes": ["address", "phone", "offline_access", "microprofile-jwt"]
         },
         {
@@ -1820,7 +1806,33 @@
                     }
                 }
             ]
-        }
+        },
+        {
+            "id": "4613d8da-9279-4d3c-8f8a-43ad76598bca",
+            "name": "spsh-audience",
+            "description": "OpenID Connect scope for add 'spsh' aud to the token. Meant for tokens that should be used to authenticate to the backend.",
+            "protocol": "openid-connect",
+            "attributes": {
+                "include.in.token.scope": "false",
+                "display.on.consent.screen": "false"
+            },
+            "protocolMappers": [
+                {
+                    "id": "ebbff6a0-26d6-48ae-b72a-a70fc3a0cc87",
+                    "name": "spsh aud",
+                    "protocol": "openid-connect",
+                    "protocolMapper": "oidc-audience-mapper",
+                    "consentRequired": false,
+                    "config": {
+                        "included.client.audience": "spsh",
+                        "id.token.claim": "false",
+                        "lightweight.claim": "false",
+                        "access.token.claim": "true",
+                        "introspection.token.claim": "true"
+                    }
+                }
+            ]
+      }
     ],
     "defaultDefaultClientScopes": ["role_list", "profile", "email", "roles", "web-origins", "acr"],
     "defaultOptionalClientScopes": ["offline_access", "address", "phone", "microprofile-jwt"],
