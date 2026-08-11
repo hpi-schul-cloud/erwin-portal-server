@@ -28,13 +28,11 @@ export class RollenMappingService {
             return null;
         }
 
-        // Get roles for service provider
         const rollenWithServiceProvider: Rolle<true>[] = await this.roleRepo.findRollenByServiceProviderId(
             serviceProvider.id,
         );
         const rollenIdsProvider: string[] = rollenWithServiceProvider.map((rolle: Rolle<true>) => rolle.id);
 
-        // Get roles for user which are part of a school
         const personenkontexte: Personenkontext<true>[] =
             await this.personenKontextService.findPersonenkontexteByPersonId(userId);
         const orgs: Option<Organisation<true>>[] = await Promise.all(
@@ -44,7 +42,6 @@ export class RollenMappingService {
             .filter((_: Personenkontext<true>, index: number) => orgs?.at(index)?.typ === OrganisationsTyp.SCHULE)
             .map((pk: Personenkontext<true>) => pk.rolleId);
 
-        // Try to find intersection
         const intersections: string[] = rollenIdsProvider.filter((rolleId: string) =>
             rollenIdsKontexte.includes(rolleId),
         );

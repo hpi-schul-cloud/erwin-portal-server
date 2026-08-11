@@ -18,7 +18,7 @@ describe('RollenartRepo', () => {
             expect(result).toContain('admin');
         });
 
-        it('should return an array with length equal to the sum of both enums', () => {
+        it('should return an array with length equal to the SchulcloudRollenArt enum', () => {
             const schulcloudLength: number = Object.values(SchulcloudRollenArt).length;
             const result: string[] = sut.getAllRollenarten();
             expect(result).toHaveLength(schulcloudLength);
