@@ -258,7 +258,7 @@ export class RolleRepo {
         return [rollen.map((rolle: RolleEntity) => mapRolleEntityToAggregate(rolle, this.rolleFactory)), total];
     }
 
-    public async findRollenByServiceProviderId(serviceProviderId: string): Promise<Rolle<boolean>[]> {
+    public async findRollenByServiceProviderId(serviceProviderId: string): Promise<Rolle<true>[]> {
         const rollenEntities: RolleEntity[] = await this.em.find(
             RolleEntity,
             {

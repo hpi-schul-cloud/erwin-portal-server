@@ -107,8 +107,9 @@ export class RollenMappingRepo {
             rolleId,
         });
         if (!rollenMappingEntity) {
-            throw new Error('No RollenMapping found for the given rolleId');
+            return null;
         }
+
         return mapRollenMappingEntityToAggregate(rollenMappingEntity, this.rollenMappingFactory);
     }
 
