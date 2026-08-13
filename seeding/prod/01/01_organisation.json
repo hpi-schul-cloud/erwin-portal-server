@@ -40,6 +40,15 @@
             "administriertVon": 1,
             "zugehoerigZu": 1,
             "emailAdress": "eric.kandell@erwin.portal.de"
+        },
+
+        {
+            "id": 1001,
+            "name": "SVS",
+            "namensergaenzung": "Keine",
+            "typ": "LMS",
+            "administriertVon": null,
+            "zugehoerigZu": null
         }
     ]
 }

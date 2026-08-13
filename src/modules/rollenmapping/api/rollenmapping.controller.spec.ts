@@ -1,25 +1,28 @@
-import { DeepMocked, createMock } from '@golevelup/ts-jest';
-import { APP_PIPE } from '@nestjs/core';
-import { TestingModule, Test } from '@nestjs/testing';
-import { RollenMappingRepo } from '../repo/rollenmapping.repo.js';
-import { RollenMappingFactory } from '../domain/rollenmapping.factory.js';
-import { RollenMappingController } from './rollenmapping.controller.js';
-import { PersonPermissions } from '../../authentication/domain/person-permissions.js';
 import { faker } from '@faker-js/faker';
-import { RollenMapping } from '../domain/rollenmapping.js';
-import { GlobalValidationPipe } from '../../../shared/validation/global-validation.pipe.js';
+import { DeepMocked, createMock } from '@golevelup/ts-jest';
+import { NotFoundException } from '@nestjs/common';
+import { APP_PIPE } from '@nestjs/core';
+import { Test, TestingModule } from '@nestjs/testing';
+import { DoFactory } from '../../../../test/utils/do-factory.js';
 import { LoggingTestModule } from '../../../../test/utils/logging-test.module.js';
 import { MapperTestModule } from '../../../../test/utils/mapper-test.module.js';
 import { DEFAULT_TIMEOUT_FOR_TESTCONTAINERS } from '../../../../test/utils/timeouts.js';
-import { RollenMappingCreateBodyParams } from './rollenmapping-create-body.params.js';
-import { ServiceProviderRepo } from '../../service-provider/repo/service-provider.repo.js';
+import { GlobalValidationPipe } from '../../../shared/validation/global-validation.pipe.js';
+import { PersonPermissions } from '../../authentication/domain/person-permissions.js';
+import { PersonRepository } from '../../person/persistence/person.repository.js';
 import { ServiceProvider } from '../../service-provider/domain/service-provider.js';
-import { DoFactory } from '../../../../test/utils/do-factory.js';
-import { RollenMappingService } from './rollenmapping.service.js';
+import { ServiceProviderRepo } from '../../service-provider/repo/service-provider.repo.js';
+import { RollenMappingFactory } from '../domain/rollenmapping.factory.js';
+import { RollenMapping } from '../domain/rollenmapping.js';
+import { RollenMappingRepo } from '../repo/rollenmapping.repo.js';
+import { RollenMappingCreateBodyParams } from './rollenmapping-create-body.params.js';
 import { RollenMappingExtractMappingRequestBody } from './rollenmapping-extract-mapping-request.body.js';
 import { RollenMappingRolleUserIdResponse } from './rollenmapping-rolle-id-response.js';
+import { RollenMappingController } from './rollenmapping.controller.js';
+import { RollenMappingService } from './rollenmapping.service.js';
 
 describe('RollenMapping API', () => {
+    let personenRepositoryMock: DeepMocked<PersonRepository>;
     let rollenMappingRepoMock: DeepMocked<RollenMappingRepo>;
     let rollenMappingController: RollenMappingController;
     let rollenMappingFactoryMock: DeepMocked<RollenMappingFactory>;
@@ -34,6 +37,10 @@ describe('RollenMapping API', () => {
                 {
                     provide: APP_PIPE,
                     useClass: GlobalValidationPipe,
+                },
+                {
+                    provide: PersonRepository,
+                    useValue: createMock<PersonRepository>(),
                 },
                 {
                     provide: RollenMappingRepo,
@@ -59,6 +66,7 @@ describe('RollenMapping API', () => {
             ],
         }).compile();
 
+        personenRepositoryMock = module.get(PersonRepository);
         rollenMappingRepoMock = module.get(RollenMappingRepo);
         rollenMappingFactoryMock = module.get(RollenMappingFactory);
         rollenMappingController = module.get(RollenMappingController);
@@ -69,6 +77,7 @@ describe('RollenMapping API', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();
+
         rollenMappingFactoryMock.createNew.mockReturnValue({
             id: faker.string.uuid(),
             createdAt: new Date(),
@@ -77,6 +86,7 @@ describe('RollenMapping API', () => {
             serviceProviderId: faker.string.uuid(),
             mapToLmsRolle: faker.string.uuid(),
         } as unknown as RollenMapping<false>);
+
         serviceProviderRepoMock.findById.mockReturnValue({
             id: faker.string.uuid(),
             createdAt: new Date(),
@@ -85,8 +95,6 @@ describe('RollenMapping API', () => {
             kategorie: 'ANGEBOTE',
             providedOnSchulstrukturknoten: faker.string.uuid(),
         } as unknown as Promise<Option<ServiceProvider<true>>>);
-        permissionsMock.hasSystemrechtAtOrganisation.mockReset();
-        rollenMappingServiceMock.getRoleOnServiceProviderByClientName.mockReset();
     });
 
     describe('getRollenMappingWithId', () => {
@@ -422,16 +430,16 @@ describe('RollenMapping API', () => {
             });
         });
     });
+
     describe('getMappingForRolleAndServiceProvider', () => {
         describe('when called', () => {
             const userId: string = faker.string.uuid();
+            const keycloakUserId: string = faker.string.uuid();
             const clientName: string = faker.company.name();
             const rolleId: string = faker.string.uuid();
-            const clientId: string = faker.string.uuid();
             const rollenMappingExtractMappingRequestBody: RollenMappingExtractMappingRequestBody = {
-                userId,
+                keycloakUserId,
                 clientName,
-                clientId,
             };
 
             it('should return RollenMappingRolleIdResponse if rolleId and rollenMapping exist', async () => {
@@ -443,6 +451,13 @@ describe('RollenMapping API', () => {
                     serviceProviderId: faker.string.uuid(),
                     mapToLmsRolle: 'Teacher',
                 };
+
+                personenRepositoryMock.findByKeycloakUserId.mockResolvedValueOnce(
+                    DoFactory.createPerson(true, {
+                        id: userId,
+                        keycloakUserId: keycloakUserId,
+                    }),
+                );
                 rollenMappingServiceMock.getRoleOnServiceProviderByClientName.mockResolvedValue(rolleId);
                 rollenMappingRepoMock.findByRolleId.mockResolvedValue(rollenMapping);
 
@@ -455,7 +470,16 @@ describe('RollenMapping API', () => {
                 expect(result.mapToLmsRolle).toBe('Teacher');
             });
 
+            it('should throw NotFoundException if person is null', async () => {
+                await expect(
+                    rollenMappingController.getMappingForRolleAndServiceProvider(
+                        rollenMappingExtractMappingRequestBody,
+                    ),
+                ).rejects.toThrow(new NotFoundException("Person with given id doesn't exist"));
+            });
+
             it('should throw NotFoundException if rollenMapping does not exist for rolleId', async () => {
+                personenRepositoryMock.findByKeycloakUserId.mockResolvedValueOnce(DoFactory.createPerson(true));
                 rollenMappingServiceMock.getRoleOnServiceProviderByClientName.mockResolvedValue(rolleId);
                 rollenMappingRepoMock.findByRolleId.mockResolvedValue(undefined);
 
@@ -463,17 +487,18 @@ describe('RollenMapping API', () => {
                     rollenMappingController.getMappingForRolleAndServiceProvider(
                         rollenMappingExtractMappingRequestBody,
                     ),
-                ).rejects.toThrow(`No rollenMapping object found with rolleId ${rolleId}`);
+                ).rejects.toThrow(new NotFoundException(`No rollenMapping object found with rolleId ${rolleId}`));
             });
 
             it('should throw NotFoundException if rolleId is null (no access)', async () => {
+                personenRepositoryMock.findByKeycloakUserId.mockResolvedValueOnce(DoFactory.createPerson(true));
                 rollenMappingServiceMock.getRoleOnServiceProviderByClientName.mockResolvedValue(null);
 
                 await expect(
                     rollenMappingController.getMappingForRolleAndServiceProvider(
                         rollenMappingExtractMappingRequestBody,
                     ),
-                ).rejects.toThrow("User doesn't have access to the requested service provider");
+                ).rejects.toThrow(new NotFoundException("User doesn't have access to the requested service provider"));
             });
         });
     });
