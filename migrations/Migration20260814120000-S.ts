@@ -13,7 +13,7 @@ export class Migration20260814120000 extends Migration {
         // 1. Delete personenkontexte referencing orphaned persons
         this.addSql(`
             DELETE FROM "personenkontext"
-            WHERE person_id_id IN (
+            WHERE person_id IN (
                 SELECT p.id FROM "person" p
                 WHERE EXISTS (
                     SELECT 1 FROM "person" p2
