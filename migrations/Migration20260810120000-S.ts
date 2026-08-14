@@ -2,41 +2,67 @@ import { Migration } from '@mikro-orm/migrations';
 
 export class Migration20260810120000 extends Migration {
     public override async up(): Promise<void> {
-        // Delete orphaned rolle records — those whose UUID is not referenced in seeding_reference
-        // but whose (name, administered_by_schulstrukturknoten, rollenart) matches a rolle that IS
-        // referenced. These are leftovers from duplicate seeding runs (e.g. the July-9 batch when
-        // seeding_reference already pointed at the July-10 batch created the next day).
-        // Personenkontexte that point to orphaned roles are removed first to satisfy FK constraints.
+        // Delete orphaned person records caused by a seeding_reference table reset:
+        // when the reference table was cleared the seeding re-created all persons fresh,
+        // leaving the older batch permanently orphaned. We keep the newest person per
+        // (familienname, vorname, ist_technisch) group and delete any older duplicates.
+        // FK-dependent personenkontexte are removed first.
         this.addSql(`
             DELETE FROM "personenkontext"
-            WHERE rolle_id IN (
-                SELECT r.id FROM "rolle" r
-                WHERE r.id NOT IN (
-                    SELECT uuid FROM "seeding_reference" WHERE referenced_entity_type = 'ROLLE'
-                )
-                AND EXISTS (
-                    SELECT 1 FROM "rolle" r2
-                    INNER JOIN "seeding_reference" sr
-                        ON sr.uuid = r2.id AND sr.referenced_entity_type = 'ROLLE'
-                    WHERE r2.name = r.name
-                      AND r2.administered_by_schulstrukturknoten = r.administered_by_schulstrukturknoten
-                      AND r2.rollenart = r.rollenart
+            WHERE person_id_id IN (
+                SELECT p.id FROM "person" p
+                WHERE EXISTS (
+                    SELECT 1 FROM "person" p2
+                    WHERE p2.familienname = p.familienname
+                      AND p2.vorname = p.vorname
+                      AND p2.ist_technisch = p.ist_technisch
+                      AND p2.created_at > p.created_at
                 )
             );
         `);
 
         this.addSql(`
-            DELETE FROM "rolle" r
-            WHERE r.id NOT IN (
-                SELECT uuid FROM "seeding_reference" WHERE referenced_entity_type = 'ROLLE'
-            )
-            AND EXISTS (
-                SELECT 1 FROM "rolle" r2
-                INNER JOIN "seeding_reference" sr
-                    ON sr.uuid = r2.id AND sr.referenced_entity_type = 'ROLLE'
-                WHERE r2.name = r.name
-                  AND r2.administered_by_schulstrukturknoten = r.administered_by_schulstrukturknoten
-                  AND r2.rollenart = r.rollenart
+            DELETE FROM "person"
+            WHERE id IN (
+                SELECT p.id FROM "person" p
+                WHERE EXISTS (
+                    SELECT 1 FROM "person" p2
+                    WHERE p2.familienname = p.familienname
+                      AND p2.vorname = p.vorname
+                      AND p2.ist_technisch = p.ist_technisch
+                      AND p2.created_at > p.created_at
+                )
+            );
+        `);
+
+        // Delete orphaned rolle records using the same strategy: keep the newest per
+        // (name, administered_by_schulstrukturknoten, rollenart) group.
+        // Personenkontexte that reference orphaned roles are removed first.
+        this.addSql(`
+            DELETE FROM "personenkontext"
+            WHERE rolle_id IN (
+                SELECT r.id FROM "rolle" r
+                WHERE EXISTS (
+                    SELECT 1 FROM "rolle" r2
+                    WHERE r2.name = r.name
+                      AND r2.administered_by_schulstrukturknoten = r.administered_by_schulstrukturknoten
+                      AND r2.rollenart = r.rollenart
+                      AND r2.created_at > r.created_at
+                )
+            );
+        `);
+
+        this.addSql(`
+            DELETE FROM "rolle"
+            WHERE id IN (
+                SELECT r.id FROM "rolle" r
+                WHERE EXISTS (
+                    SELECT 1 FROM "rolle" r2
+                    WHERE r2.name = r.name
+                      AND r2.administered_by_schulstrukturknoten = r.administered_by_schulstrukturknoten
+                      AND r2.rollenart = r.rollenart
+                      AND r2.created_at > r.created_at
+                )
             );
         `);
 
