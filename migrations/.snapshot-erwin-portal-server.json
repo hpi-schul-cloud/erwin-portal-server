@@ -1179,7 +1179,7 @@
           "keyName": "seeding_reference_pkey",
           "columnNames": [
             "virtual_id",
-            "uuid"
+            "referenced_entity_type"
           ],
           "composite": true,
           "constraint": true,
