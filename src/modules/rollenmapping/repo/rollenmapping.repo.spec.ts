@@ -131,12 +131,11 @@ describe('RollenMappingRepo', () => {
                 expect(foundMapping.id).toBe(savedMapping.id);
             });
         });
+
         describe('when no RollenMapping exists for the given rolleId', () => {
-            it('should throw an error if no RollenMapping exists for the given rolleId', async () => {
+            it('should return null', async () => {
                 const nonExistentRolleId: string = faker.string.uuid();
-                await expect(sut.findByRolleId(nonExistentRolleId)).rejects.toThrow(
-                    'No RollenMapping found for the given rolleId',
-                );
+                await expect(sut.findByRolleId(nonExistentRolleId)).resolves.toBeNull();
             });
         });
     });

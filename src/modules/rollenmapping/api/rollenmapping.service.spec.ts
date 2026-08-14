@@ -1,18 +1,22 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { DeepMocked, createMock } from '@golevelup/ts-jest';
-import { RollenMappingService } from './rollenmapping.service.js';
-import { ServiceProviderRepo } from '../../service-provider/repo/service-provider.repo.js';
-import { PersonenkontextService } from '../../personenkontext/domain/personenkontext.service.js';
-import { ServiceProvider } from '../../service-provider/domain/service-provider.js';
-import { Personenkontext } from '../../personenkontext/domain/personenkontext.js';
 import { faker } from '@faker-js/faker';
-import { RolleID } from '../../../shared/types/aggregate-ids.types.js';
+import { DeepMocked, createMock } from '@golevelup/ts-jest';
+import { Test, TestingModule } from '@nestjs/testing';
 import { DoFactory } from '../../../../test/utils/index.js';
+import { ClassLogger } from '../../../core/logging/class-logger.js';
+import { RolleID } from '../../../shared/types/aggregate-ids.types.js';
+import { OrganisationsTyp } from '../../organisation/domain/organisation.enums.js';
+import { Personenkontext } from '../../personenkontext/domain/personenkontext.js';
+import { PersonenkontextService } from '../../personenkontext/domain/personenkontext.service.js';
+import { RolleRepo } from '../../rolle/repo/rolle.repo.js';
+import { ServiceProvider } from '../../service-provider/domain/service-provider.js';
+import { ServiceProviderRepo } from '../../service-provider/repo/service-provider.repo.js';
+import { RollenMappingService } from './rollenmapping.service.js';
 
 describe('RollenMappingService', () => {
     let rollenMappingService: RollenMappingService;
     let serviceProviderRepoMock: DeepMocked<ServiceProviderRepo>;
     let personenKontextServiceMock: DeepMocked<PersonenkontextService>;
+    let rollenRepoMock: DeepMocked<RolleRepo>;
 
     beforeAll(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -25,6 +29,14 @@ describe('RollenMappingService', () => {
                     provide: PersonenkontextService,
                     useValue: createMock<PersonenkontextService>(),
                 },
+                {
+                    provide: ClassLogger,
+                    useValue: createMock<ClassLogger>(),
+                },
+                {
+                    provide: RolleRepo,
+                    useValue: createMock<RolleRepo>(),
+                },
                 RollenMappingService,
             ],
         }).compile();
@@ -32,13 +44,12 @@ describe('RollenMappingService', () => {
         rollenMappingService = module.get(RollenMappingService);
         serviceProviderRepoMock = module.get(ServiceProviderRepo);
         personenKontextServiceMock = module.get(PersonenkontextService);
+        rollenRepoMock = module.get(RolleRepo);
     });
 
     beforeEach(() => {
         jest.resetAllMocks();
-    });
-
-    afterEach(() => {
+        jest.restoreAllMocks();
         jest.clearAllMocks();
     });
 
@@ -56,10 +67,23 @@ describe('RollenMappingService', () => {
                     personId: userId,
                     organisationId: sp.providedOnSchulstrukturknoten,
                     rolleId,
+                    getOrganisation() {
+                        return Promise.resolve(
+                            DoFactory.createOrganisation(true, {
+                                typ: OrganisationsTyp.SCHULE,
+                            }),
+                        );
+                    },
                 }),
             ];
 
             serviceProviderRepoMock.findByName.mockResolvedValue(sp);
+            rollenRepoMock.findRollenByServiceProviderId.mockResolvedValueOnce([
+                DoFactory.createRolle(true, {
+                    id: rolleId,
+                    serviceProviderIds: [sp.id],
+                }),
+            ]);
             personenKontextServiceMock.findPersonenkontexteByPersonId.mockResolvedValue(personenkontexte);
 
             const result: RolleID | null = await rollenMappingService.getRoleOnServiceProviderByClientName(
@@ -96,6 +120,7 @@ describe('RollenMappingService', () => {
             const personenkontexte: Personenkontext<true>[] = [];
 
             serviceProviderRepoMock.findByName.mockResolvedValue(sp);
+            rollenRepoMock.findRollenByServiceProviderId.mockResolvedValueOnce([DoFactory.createRolle(true)]);
             personenKontextServiceMock.findPersonenkontexteByPersonId.mockResolvedValue(personenkontexte);
 
             const result: RolleID | null = await rollenMappingService.getRoleOnServiceProviderByClientName(
@@ -113,6 +138,7 @@ describe('RollenMappingService', () => {
             const sp: ServiceProvider<true> = DoFactory.createServiceProvider(true, { id: spId });
 
             serviceProviderRepoMock.findByName.mockResolvedValue(sp);
+            rollenRepoMock.findRollenByServiceProviderId.mockResolvedValueOnce([DoFactory.createRolle(true)]);
             personenKontextServiceMock.findPersonenkontexteByPersonId.mockResolvedValue([]);
 
             const result: RolleID | null = await rollenMappingService.getRoleOnServiceProviderByClientName(

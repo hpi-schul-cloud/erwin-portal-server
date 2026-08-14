@@ -76,6 +76,14 @@
             "typ": "KLASSE",
             "administriertVon": 12,
             "zugehoerigZu": 12
+        },
+        {
+            "id": 1001,
+            "name": "SVS",
+            "namensergaenzung": "Keine",
+            "typ": "LMS",
+            "administriertVon": null,
+            "zugehoerigZu": null
         }
     ]
 }
