@@ -157,7 +157,7 @@ describe('Personenkontext aggregate', () => {
             orgaMock.typ = OrganisationsTyp.SCHULE;
             organisationRepoMock.findById.mockResolvedValueOnce(orgaMock);
             const rolleMock: DeepMocked<Rolle<true>> = createMock<Rolle<true>>();
-            rolleMock.rollenart = RollenArt.SYSADMIN;
+            rolleMock.rollenart = RollenArt.PORTALADMIN;
             rolleRepoMock.findById.mockResolvedValueOnce(rolleMock);
             rolleMock.canBeAssignedToOrga.mockResolvedValueOnce(true);
 

@@ -185,7 +185,7 @@ describe('PersonenkontextCreationService', () => {
 
         it('should return RolleNurAnPassendeOrganisationError if Rolle does NOT match organisation', async () => {
             personFactoryMock.createNew.mockResolvedValueOnce(createMock<Person<false>>());
-            const rolleMock: DeepMocked<Rolle<true>> = createMock<Rolle<true>>({ rollenart: RollenArt.SYSADMIN });
+            const rolleMock: DeepMocked<Rolle<true>> = createMock<Rolle<true>>({ rollenart: RollenArt.PORTALADMIN });
             rolleMock.canBeAssignedToOrga.mockResolvedValueOnce(true);
             rolleRepoMock.findById.mockResolvedValueOnce(rolleMock);
             organisationRepositoryMock.findById.mockResolvedValueOnce(
