@@ -25,7 +25,7 @@
             "name": "Leiter",
             "rollenart": "LEIT",
             "merkmale": [],
-            "systemrechte": ["PERSONEN_LESEN"],
+            "systemrechte": ["PERSONEN_LESEN", "PERSONEN_VERWALTEN"],
             "serviceProviderIds": [1, 2, 3, 4]
         },
         {
@@ -71,12 +71,7 @@
             "name": "Portaladministrator-Manager",
             "rollenart": "PORTALADMINMANAGER",
             "merkmale": [],
-            "systemrechte": [
-                "PERSONEN_LESEN",
-                "PERSONEN_ANLEGEN",
-                "PERSONEN_VERWALTEN",
-                "PERSONEN_SOFORT_LOESCHEN"
-            ],
+            "systemrechte": ["PERSONEN_LESEN", "PERSONEN_ANLEGEN", "PERSONEN_VERWALTEN", "PERSONEN_SOFORT_LOESCHEN"],
             "serviceProviderIds": [1, 2, 3]
         }
     ]
