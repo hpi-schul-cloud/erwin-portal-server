@@ -179,7 +179,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -449,7 +450,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -535,7 +537,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -740,7 +743,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -826,7 +830,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -896,6 +901,15 @@
           "primary": false,
           "nullable": true,
           "mappedType": "string"
+        },
+        "failure_reason": {
+          "name": "failure_reason",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
         }
       },
       "name": "seeding",
@@ -1023,7 +1037,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -1109,7 +1124,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -1298,7 +1314,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -1384,7 +1401,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -1602,7 +1620,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -1688,7 +1707,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -2031,7 +2051,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -2117,7 +2138,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -2316,7 +2338,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -2402,7 +2425,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -2612,7 +2636,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -2698,7 +2723,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -3204,7 +3230,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -3290,7 +3317,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -3551,7 +3579,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -3637,7 +3666,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -3836,7 +3866,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -3922,7 +3953,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -4012,7 +4044,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ],
           "mappedType": "enum"
         },
@@ -4162,7 +4195,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -4248,7 +4282,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -4633,7 +4668,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -4719,7 +4755,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -5025,7 +5062,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -5111,7 +5149,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -5396,7 +5435,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -5482,7 +5522,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -5683,7 +5724,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -5769,7 +5811,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -5985,7 +6028,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -6071,7 +6115,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -6350,7 +6395,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -6436,7 +6482,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -6513,7 +6560,8 @@
           "enumItems": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ],
           "mappedType": "enum"
         },
@@ -6748,7 +6796,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -6834,7 +6883,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -7032,7 +7082,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -7118,7 +7169,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -7353,7 +7405,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -7439,7 +7492,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -7637,7 +7691,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -7723,7 +7778,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -7967,7 +8023,8 @@
             "ORGADMIN",
             "LEIT",
             "SYSADMIN",
-            "PORTALADMIN"
+            "PORTALADMIN",
+            "PORTALADMINMANAGER"
           ]
         },
         "personenstatus_enum": {
@@ -8053,7 +8110,8 @@
           "items": [
             "URL",
             "EMAIL",
-            "SCHULPORTAL_ADMINISTRATION"
+            "SCHULPORTAL_ADMINISTRATION",
+            "SELF"
           ]
         },
         "service_provider_kategorie_enum": {
@@ -8189,7 +8247,8 @@
         "ORGADMIN",
         "LEIT",
         "SYSADMIN",
-        "PORTALADMIN"
+        "PORTALADMIN",
+        "PORTALADMINMANAGER"
       ]
     },
     "personenstatus_enum": {
@@ -8275,7 +8334,8 @@
       "items": [
         "URL",
         "EMAIL",
-        "SCHULPORTAL_ADMINISTRATION"
+        "SCHULPORTAL_ADMINISTRATION",
+        "SELF"
       ]
     },
     "service_provider_kategorie_enum": {

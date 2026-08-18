@@ -26,7 +26,7 @@
             "rollenart": "LEIT",
             "merkmale": [],
             "systemrechte": ["PERSONEN_LESEN"],
-            "serviceProviderIds": [2, 3, 4]
+            "serviceProviderIds": [1, 2, 3, 4]
         },
         {
             "id": 4,
@@ -34,7 +34,13 @@
             "name": "Administrator",
             "rollenart": "SYSADMIN",
             "merkmale": [],
-            "systemrechte": ["PERSONEN_LESEN", "SERVICEPROVIDER_VERWALTEN", "ROLLEN_VERWALTEN"],
+            "systemrechte": [
+                "PERSONEN_LESEN",
+                "PERSONEN_ANLEGEN",
+                "PERSONEN_VERWALTEN",
+                "SERVICEPROVIDER_VERWALTEN",
+                "ROLLEN_VERWALTEN"
+            ],
             "serviceProviderIds": [1, 2, 3, 4]
         },
         {
@@ -50,31 +56,28 @@
                 "PERSONEN_SOFORT_LOESCHEN",
                 "SERVICEPROVIDER_VERWALTEN",
                 "LMS_VERWALTEN",
-
                 "ROLLEN_VERWALTEN",
+
                 "SCHULEN_VERWALTEN",
                 "KLASSEN_VERWALTEN",
                 "SCHULTRAEGER_VERWALTEN",
                 "SCHULPORTAL_VERWALTEN"
             ],
-            "serviceProviderIds": [1, 2, 3, 4]
+            "serviceProviderIds": [1, 2, 3]
         },
         {
             "id": 6,
             "administeredBySchulstrukturknoten": 0,
-            "name": "Portaladministratorseeding",
-            "rollenart": "PORTALADMINSEEDING",
+            "name": "Portaladministrator-Manager",
+            "rollenart": "PORTALADMINMANAGER",
             "merkmale": [],
             "systemrechte": [
                 "PERSONEN_LESEN",
                 "PERSONEN_ANLEGEN",
                 "PERSONEN_VERWALTEN",
-                "SERVICEPROVIDER_VERWALTEN",
-
-                "ROLLEN_VERWALTEN",
-                "SCHULPORTAL_VERWALTEN"
+                "PERSONEN_SOFORT_LOESCHEN"
             ],
-            "serviceProviderIds": [1, 2, 3, 4]
+            "serviceProviderIds": [1, 2, 3]
         }
     ]
 }
