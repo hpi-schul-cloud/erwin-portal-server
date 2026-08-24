@@ -74,20 +74,12 @@ export class RollenMappingController {
             this.logger.error(`No rollenMapping object found with id ${id}`);
             throw new NotFoundException(`No rollenMapping object found with id ${id}`);
         }
-        const serviceProvider: Option<ServiceProvider<true>> = await this.serviceProviderRepo.findById(
+
+        await this.checkPermission(
             rollenMapping.serviceProviderId,
+            personPermission,
+            `Insufficient rights to retrieve the rollenMapping at this organization with id ${id}`,
         );
-        if (
-            !(await personPermission.hasSystemrechtAtOrganisation(
-                serviceProvider!.providedOnSchulstrukturknoten,
-                RollenSystemRecht.ROLLEN_VERWALTEN,
-            ))
-        ) {
-            this.logger.error(`Insufficient rights to retrieve the rollenMapping at this organization with id ${id}`);
-            throw new ForbiddenException(
-                `Insufficient rights to retrieve the rollenMapping at this organization with id ${id}`,
-            );
-        }
 
         return rollenMapping;
     }
@@ -106,20 +98,14 @@ export class RollenMappingController {
     ): Promise<RollenMapping<true>[]> {
         const rollenMappingArray: Option<RollenMapping<true>[]> = await this.rollenMappingRepo.find();
 
-        const permissionChecks: boolean[] = await Promise.all(
+        const permissionChecks: PromiseSettledResult<boolean>[] = await Promise.allSettled(
             rollenMappingArray.map(async (rollenMapping: RollenMapping<true>) => {
-                const serviceProvider: Option<ServiceProvider<true>> = await this.serviceProviderRepo.findById(
-                    rollenMapping.serviceProviderId,
-                );
-                const hasPermission: boolean = await personPermission.hasSystemrechtAtOrganisation(
-                    serviceProvider!.providedOnSchulstrukturknoten,
-                    RollenSystemRecht.ROLLEN_VERWALTEN,
-                );
-                return hasPermission;
+                await this.checkPermission(rollenMapping.serviceProviderId, personPermission);
+                return true;
             }),
         );
         const filteredRollenMappingArray: RollenMapping<true>[] = rollenMappingArray.filter(
-            (_: RollenMapping<true>, index: number) => permissionChecks[index],
+            (_: RollenMapping<true>, index: number) => permissionChecks[index]?.status === 'fulfilled',
         );
 
         if (!filteredRollenMappingArray || filteredRollenMappingArray.length === 0) {
@@ -145,20 +131,12 @@ export class RollenMappingController {
         @Param('serviceProviderId') serviceProviderId: string,
         @Permissions() personPermission: PersonPermissions,
     ): Promise<RollenMapping<true>[]> {
-        const serviceProvider: Option<ServiceProvider<true>> =
-            await this.serviceProviderRepo.findById(serviceProviderId);
-        if (serviceProvider!.providedOnSchulstrukturknoten) {
-            if (
-                !(await personPermission.hasSystemrechtAtOrganisation(
-                    serviceProvider!.providedOnSchulstrukturknoten,
-                    RollenSystemRecht.ROLLEN_VERWALTEN,
-                ))
-            ) {
-                throw new ForbiddenException(
-                    'Insufficient rights to retrieve the rollenMapping objects from this organization',
-                );
-            }
-        }
+        await this.checkPermission(
+            serviceProviderId,
+            personPermission,
+            'Insufficient rights to retrieve the rollenMapping objects from this organization',
+        );
+
         const rollenMappingArray: Option<RollenMapping<true>[]> =
             await this.rollenMappingRepo.findByServiceProviderId(serviceProviderId);
 
@@ -180,21 +158,11 @@ export class RollenMappingController {
         @Query() rollenMappingCreateBodyParams: RollenMappingCreateBodyParams,
         @Permissions() personPermission: PersonPermissions,
     ): Promise<RollenMapping<true>> {
-        const serviceProvider: Option<ServiceProvider<true>> = await this.serviceProviderRepo.findById(
+        await this.checkPermission(
             rollenMappingCreateBodyParams.serviceProviderId,
+            personPermission,
+            'Insufficient rights to create the rollenMapping objects into this organization',
         );
-        if (serviceProvider!.providedOnSchulstrukturknoten) {
-            if (
-                !(await personPermission.hasSystemrechtAtOrganisation(
-                    serviceProvider!.providedOnSchulstrukturknoten,
-                    RollenSystemRecht.ROLLEN_VERWALTEN,
-                ))
-            ) {
-                throw new ForbiddenException(
-                    'Insufficient rights to create the rollenMapping objects into this organization',
-                );
-            }
-        }
 
         const newRollenmapping: RollenMapping<false> = RollenMapping.createNew(
             rollenMappingCreateBodyParams.rolleId,
@@ -223,21 +191,11 @@ export class RollenMappingController {
             throw new NotFoundException(`No rollenMapping found with id ${id}`);
         }
 
-        const serviceProvider: Option<ServiceProvider<true>> = await this.serviceProviderRepo.findById(
+        await this.checkPermission(
             originalRollenMapping.serviceProviderId,
+            personPermission,
+            'Insufficient rights to update the rollenMapping objects in this organization',
         );
-        if (serviceProvider!.providedOnSchulstrukturknoten) {
-            if (
-                !(await personPermission.hasSystemrechtAtOrganisation(
-                    serviceProvider!.providedOnSchulstrukturknoten,
-                    RollenSystemRecht.ROLLEN_VERWALTEN,
-                ))
-            ) {
-                throw new ForbiddenException(
-                    'Insufficient rights to update the rollenMapping objects in this organization',
-                );
-            }
-        }
 
         const updateRollenMapping: RollenMapping<true> = this.rollenMappingFactory.update(
             originalRollenMapping.id,
@@ -267,23 +225,14 @@ export class RollenMappingController {
         if (!rollenMapping) {
             this.logger.error(`No rollenMapping found with id ${id}`);
             throw new NotFoundException(`No rollenMapping found with id ${id}`);
-        } else {
-            const serviceProvider: Option<ServiceProvider<true>> = await this.serviceProviderRepo.findById(
-                rollenMapping.serviceProviderId,
-            );
-
-            if (serviceProvider) {
-                if (
-                    !(await personPermission.hasSystemrechtAtOrganisation(
-                        serviceProvider.providedOnSchulstrukturknoten,
-                        RollenSystemRecht.ROLLEN_VERWALTEN,
-                    ))
-                ) {
-                    throw new ForbiddenException('Insufficient rights to delete the rollenMapping');
-                }
-            }
-            await this.rollenMappingRepo.delete(id);
         }
+
+        await this.checkPermission(
+            rollenMapping.serviceProviderId,
+            personPermission,
+            'Insufficient rights to delete the rollenMapping',
+        );
+        await this.rollenMappingRepo.delete(id);
     }
 
     @Post('extract-mapping/keycloak')
@@ -322,5 +271,32 @@ export class RollenMappingController {
         }
 
         return new RollenMappingRolleUserIdResponse(person.id, rollenMapping.mapToLmsRolle);
+    }
+
+    private async checkPermission(
+        serviceProviderId: string,
+        personPermission: PersonPermissions,
+        errorMessage?: string,
+    ): Promise<void> {
+        const serviceProvider: Option<ServiceProvider<true>> =
+            await this.serviceProviderRepo.findById(serviceProviderId);
+
+        if (!serviceProvider) {
+            throw new NotFoundException(`Couldn't find service provider with id ${serviceProviderId}`);
+        }
+
+        if (serviceProvider.providedOnSchulstrukturknoten) {
+            const hasPermission: boolean = await personPermission.hasSystemrechtAtOrganisation(
+                serviceProvider.providedOnSchulstrukturknoten,
+                RollenSystemRecht.ROLLEN_VERWALTEN,
+            );
+
+            if (!hasPermission) {
+                const msg: string =
+                    errorMessage ?? 'Insufficient rights to access the rollenMapping objects from this organization';
+                this.logger.error(msg);
+                throw new ForbiddenException(msg);
+            }
+        }
     }
 }
