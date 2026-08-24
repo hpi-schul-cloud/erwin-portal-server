@@ -69,8 +69,8 @@ describe('PersonAdministrationService', () => {
             expect(result).toEqual(rollen);
         });
 
-        it('should return list of all rollen when they exist Except Landesadmin, if the user is NOT Landesadmin', async () => {
-            const rolle: Rolle<true> = DoFactory.createRolle(true, { rollenart: RollenArt.SYSADMIN });
+        it('should return list of all rollen when they exist Except Portaladmin, if the user is NOT Portaladmin', async () => {
+            const rolle: Rolle<true> = DoFactory.createRolle(true, { rollenart: RollenArt.PORTALADMIN });
             const leitRolle: Rolle<true> = DoFactory.createRolle(true, { rollenart: RollenArt.LEIT });
             const lehrRolle: Rolle<true> = DoFactory.createRolle(true, { rollenart: RollenArt.LEHR });
             const lernRolle: Rolle<true> = DoFactory.createRolle(true, { rollenart: RollenArt.LERN });

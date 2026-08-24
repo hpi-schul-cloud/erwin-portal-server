@@ -4,7 +4,7 @@
         {
             "id": 0,
             "kennung": null,
-            "name": "ErWIn Land",
+            "name": "ErWIn-Portal",
             "kuerzel": "Root",
             "typ": "ROOT",
             "administriertVon": null,
@@ -13,7 +13,7 @@
         {
             "id": 1,
             "kennung": null,
-            "name": "Öffentliche Schulen ErWIn Land",
+            "name": "Öffentliche Schulen Land",
             "kuerzel": "Öffentl. Schulen",
             "typ": "LAND",
             "administriertVon": 0,

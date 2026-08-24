@@ -26,6 +26,15 @@ describe('OrganisationMatchesRollenart specification', () => {
 
             expect(sut.isSatisfiedBy(orgaMock, rolleMock)).toBeTruthy();
         });
+
+        it('should return true, if organisation is SCHULE', () => {
+            const orgaMock: DeepMocked<Organisation<true>> = createMock<Organisation<true>>();
+            orgaMock.typ = OrganisationsTyp.SCHULE;
+            const rolleMock: DeepMocked<Rolle<true>> = createMock<Rolle<true>>();
+            rolleMock.rollenart = RollenArt.SYSADMIN;
+
+            expect(sut.isSatisfiedBy(orgaMock, rolleMock)).toBeTruthy();
+        });
     });
 
     describe('when rollenart is LEIT', () => {
@@ -85,6 +94,28 @@ describe('OrganisationMatchesRollenart specification', () => {
             rolleMock.rollenart = RollenArt.LEHR;
 
             expect(sut.isSatisfiedBy(orgaMock, rolleMock)).toBeFalsy();
+        });
+    });
+
+    describe('when rollenart is PORTALADMIN', () => {
+        it('should return true, if organisation is ROOT', () => {
+            const orgaMock: DeepMocked<Organisation<true>> = createMock<Organisation<true>>();
+            orgaMock.typ = OrganisationsTyp.ROOT;
+            const rolleMock: DeepMocked<Rolle<true>> = createMock<Rolle<true>>();
+            rolleMock.rollenart = RollenArt.PORTALADMIN;
+
+            expect(sut.isSatisfiedBy(orgaMock, rolleMock)).toBeTruthy();
+        });
+    });
+
+    describe('when rollenart is PORTALADMINSEEDING', () => {
+        it('should return true, if organisation is ROOT', () => {
+            const orgaMock: DeepMocked<Organisation<true>> = createMock<Organisation<true>>();
+            orgaMock.typ = OrganisationsTyp.ROOT;
+            const rolleMock: DeepMocked<Rolle<true>> = createMock<Rolle<true>>();
+            rolleMock.rollenart = RollenArt.PORTALADMINSEEDING;
+
+            expect(sut.isSatisfiedBy(orgaMock, rolleMock)).toBeTruthy();
         });
     });
 });

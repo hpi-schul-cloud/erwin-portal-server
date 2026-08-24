@@ -248,7 +248,7 @@ describe('DbiamPersonenkontextWorkflowController Integration Test', () => {
             const rolle: Rolle<true> | DomainError = await rolleRepo.save(
                 DoFactory.createRolle(false, {
                     administeredBySchulstrukturknoten: organisation.id,
-                    rollenart: RollenArt.SYSADMIN,
+                    rollenart: RollenArt.PORTALADMIN,
                 }),
             );
             if (rolle instanceof DomainError) throw Error();
