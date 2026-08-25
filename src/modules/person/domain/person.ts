@@ -285,7 +285,7 @@ export class Person<WasPersisted extends boolean> {
 
         this.familienname = familienname ?? this.familienname;
         this.vorname = vorname ?? this.vorname;
-        this.referrer = referrer;
+        this.referrer = referrer ?? this.referrer;
         this.stammorganisation = stammorganisation;
         this.initialenFamilienname = initialenFamilienname;
         this.initialenVorname = initialenVorname;

@@ -350,6 +350,25 @@ describe('Person', () => {
                 expect(person.referrer).toEqual('abc');
                 expect(person.istTechnisch).toEqual(initialIstTechnisch);
             });
+
+            it('should keep existing referrer when update receives no referrer value', () => {
+                const person: Person<true> = Person.construct(
+                    faker.string.uuid(),
+                    faker.date.past(),
+                    faker.date.recent(),
+                    'Mustermann',
+                    'Max',
+                    '5',
+                    faker.lorem.word(),
+                    faker.lorem.word(),
+                    'existing-referrer',
+                );
+
+                const result: void | DomainError = person.update('5', 'Musterfrau', 'Maxine', undefined);
+
+                expect(result).not.toBeInstanceOf(DomainError);
+                expect(person.referrer).toEqual('existing-referrer');
+            });
         });
         describe('revision does match and istTechnisch is updated', () => {
             it('should update istTechnisch in the person', () => {
