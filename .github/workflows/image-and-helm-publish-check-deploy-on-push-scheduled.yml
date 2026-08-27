@@ -212,7 +212,7 @@ jobs:
       namespace: ${{ needs.create_branch_identifier.outputs.namespace_from_branch }}
       database_recreation: "true" # to prevent database recreation this has to be set to false
     secrets:
-      ERWIN_DEV_KUBECONFIG: ${{ secrets.ERWIN_DEV_KUBECONFIG }} 
+      ERWIN_DEV_KUBECONFIG: ${{ secrets.ERWIN_DEV_KUBECONFIG }}
   # On Delete
   create_branch_identifier_for_deletion:
     if: ${{ github.event_name == 'delete' && github.event.ref_type == 'branch' }}
