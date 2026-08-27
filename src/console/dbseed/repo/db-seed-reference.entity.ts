@@ -9,14 +9,14 @@ export enum ReferencedEntityType {
 
 @Entity({ tableName: 'seeding_reference' })
 export class DbSeedReferenceEntity extends BaseEntity {
-    @Enum({ items: () => ReferencedEntityType, nativeEnumName: 'referenced_entity_type_enum' })
+    @Enum({ items: () => ReferencedEntityType, nativeEnumName: 'referenced_entity_type_enum', primary: true })
     public referencedEntityType!: ReferencedEntityType;
 
     @Property({ primary: true, nullable: false })
     public virtualId!: number;
 
-    @Property({ primary: true, nullable: false })
+    @Property({ nullable: false })
     public uuid!: string;
 
-    public [PrimaryKeyProp]?: ['virtualId', 'uuid'];
+    public [PrimaryKeyProp]?: ['virtualId', 'referencedEntityType'];
 }
