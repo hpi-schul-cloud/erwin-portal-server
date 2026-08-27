@@ -29,7 +29,7 @@ export class OrganisationMatchesRollenart {
             return organisation.typ === OrganisationsTyp.SCHULE;
         }
 
-        if (rolle.rollenart === RollenArt.PORTALADMIN || rolle.rollenart === RollenArt.PORTALADMINSEEDING) {
+        if (rolle.rollenart === RollenArt.PORTALADMIN || rolle.rollenart === RollenArt.PORTALADMINMANAGER) {
             return organisation.typ === OrganisationsTyp.ROOT;
         }
 

@@ -108,12 +108,12 @@ describe('OrganisationMatchesRollenart specification', () => {
         });
     });
 
-    describe('when rollenart is PORTALADMINSEEDING', () => {
+    describe('when rollenart is PORTALADMINMANAGER', () => {
         it('should return true, if organisation is ROOT', () => {
             const orgaMock: DeepMocked<Organisation<true>> = createMock<Organisation<true>>();
             orgaMock.typ = OrganisationsTyp.ROOT;
             const rolleMock: DeepMocked<Rolle<true>> = createMock<Rolle<true>>();
-            rolleMock.rollenart = RollenArt.PORTALADMINSEEDING;
+            rolleMock.rollenart = RollenArt.PORTALADMINMANAGER;
 
             expect(sut.isSatisfiedBy(orgaMock, rolleMock)).toBeTruthy();
         });
